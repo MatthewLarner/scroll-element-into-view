@@ -44,12 +44,12 @@ function scrollElementIntoView(element, animationTime, easingFunction){
         }
 
         var currentTime = Date.now(),
-                curvePosition = (animationTime - (endTime - currentTime)) / animationTime;
+            curvePosition = (animationTime - (endTime - currentTime)) / animationTime;
 
         var value = easingFunction(curvePosition);
 
-            document.body.scrollLeft = location.x - (location.differenceX - location.differenceX * value);
-            document.body.scrollTop = location.y - (location.differenceY - location.differenceY * value);
+        document.body.scrollLeft = location.x - (location.differenceX - location.differenceX * value);
+        document.body.scrollTop = location.y - (location.differenceY - location.differenceY * value);
 
         if(curvePosition < 1){
             animationId = requestAnimationFrame(run);
