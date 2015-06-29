@@ -1,9 +1,5 @@
-var targetElement,
-    animationId;
-
 function getTargetScrollLocation(target){
     var targetPosition = target.getBoundingClientRect(),
-    parentPosition,
     x,
     y,
     differenceX,
@@ -24,32 +20,36 @@ function getTargetScrollLocation(target){
     };
 }
 
-function scrollToElement(element, time, easingCurve){
-    var location = element.getBoundingClientRect(),
-        startTime = Date.now(),
-        endTime = Date.now() + time;
-        time = time || 750;
+function scrollElementIntoView(element, animationTime, easingFunction){
+    var targetElement = element,
+    animationId;
 
-    targetElement = element;
+    animationTime = animationTime || 750;
+
+    easingFunction = easingFunction || function linearEasing(curvePosition){
+        return curvePosition;
+    };
+
+    var location = getTargetScrollLocation(element),
+        endTime = Date.now() + animationTime;
 
     function run(){
         if(element !== targetElement) {
             cancelAnimationFrame(animationId);
             element = targetElement;
-            endTime = Date.now() + time;
+            endTime = Date.now() + animationTime;
             location = getTargetScrollLocation(element);
         }
 
         var currentTime = Date.now(),
-                curvePosition = (time - (endTime - currentTime)) / time;
+            curvePosition = (animationTime - (endTime - currentTime)) / animationTime;
 
-        var timeValue = 1 / time * (now - startTime),
-            value = easingCurve(curvePosition);
+        var value = easingFunction(curvePosition);
 
-            document.body.scrollLeft = location.x - (location.differenceX - location.differenceX * value);
-            document.body.scrollTop = location.y - (location.differenceY - location.differenceY * value);
+        document.body.scrollLeft = location.x - (location.differenceX - location.differenceX * value);
+        document.body.scrollTop = location.y - (location.differenceY - location.differenceY * value);
 
-        if(timeValue < 1){
+        if(curvePosition < 1){
             animationId = requestAnimationFrame(run);
         }
     }
@@ -57,4 +57,4 @@ function scrollToElement(element, time, easingCurve){
     run();
 }
 
-module.exports = scrollToElement
+module.exports = scrollElementIntoView;
