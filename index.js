@@ -1,3 +1,6 @@
+var targetElement,
+    animationId;
+
 function getTargetScrollLocation(target){
     var targetPosition = target.getBoundingClientRect(),
     x,
@@ -21,11 +24,12 @@ function getTargetScrollLocation(target){
 }
 
 function scrollElementIntoView(element, animationTime, easingFunction){
-    var targetElement = element,
-    animationId;
+    if (!element || targetElement === element) {
+        return;
+    }
 
+    targetElement = element;
     animationTime = animationTime || 750;
-
     easingFunction = easingFunction || function linearEasing(curvePosition){
         return curvePosition;
     };
