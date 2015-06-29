@@ -14,5 +14,11 @@
     },
     "bugs": {
         "url": "https://github.com/matthewLarner/scroll-element-into-view/issues"
-    }
+    },
+    "keywords": [
+        "scrolling",
+        "scroll",
+        "animation",
+        "easing"
+    ]
 }
